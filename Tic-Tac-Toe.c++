@@ -1,8 +1,11 @@
 #include <iostream>
+#include <algorithm>
+
 #include "./Player.h"
 
 void drawMap(char spots[9]);
-bool checkWining(int spots[5]);
+bool checkWining(Player *player);
+void logArr(const int arr[], int arrLength);
 
 int main()
 {
@@ -29,8 +32,10 @@ int main()
     std::getline(std::cin, playerName);
     players[1].name = playerName;
 
+    // the game main loop
     while (true)
     {
+        // a single round loop
         while (playedCount <= 9)
         {
             drawMap(spots);
@@ -42,6 +47,7 @@ int main()
                 // add check for a not played spot
                 if (playedSpot >= 1 && playedSpot <= 9)
                 {
+                    players[currentPlayerIndex].play(playedSpot);
                     break;
                 }
                 std::cout << "The Chosen spot is invalid\n";
@@ -49,7 +55,14 @@ int main()
 
             spots[playedSpot - 1] = players[currentPlayerIndex].tag;
 
-            // checkWining(players[currentPlayerIndex].playedAt);
+            std::cout << "playedCount " << playedCount << std::endl;
+            if (playedCount >= 5)
+            {
+                if (checkWining(&players[currentPlayerIndex]))
+                {
+                    break;
+                }
+            }
 
             currentPlayerIndex = currentPlayerIndex == 0 ? 1 : 0;
             playedCount++;
@@ -76,21 +89,49 @@ void drawMap(char spots[9])
     std::cout << "-------------\n";
 }
 
-bool checkWining(int spots[5])
+bool checkWining(Player *player)
 {
+    int *spots = player->get_played_at();
+
     int existCount = 0;
 
     for (int i = 0; i < 8; i++)
     {
-        for (int j; j < 5; j++)
+        for (int j = 0; j < 5; j++)
         {
-            // check if spots[j] is in WINNING_PATH[i]
-            // if true existCount
+            int arraySize = sizeof(WINNING_PATH[i]) / sizeof(WINNING_PATH[i][0]);
 
-            // if  existCount == 3 then return true
+            // check if spots[j] is in WINNING_PATH[i]
+            if (std::find(WINNING_PATH[i], WINNING_PATH[i] + arraySize, spots[j]) != WINNING_PATH[i] + arraySize)
+            {
+                existCount++;
+            }
+
+            if (existCount == 3)
+            {
+                std::cout << player->name << " wins;\n";
+                return true;
+            }
         }
         existCount = 0;
     }
 
     return false;
+}
+
+void logArr(const int arr[], int arrLength)
+{
+    std::cout << "[";
+
+    for (int i = 0; i < arrLength; i++)
+    {
+        std::cout << arr[i];
+
+        if (i < arrLength - 1)
+        {
+            std::cout << ", ";
+        }
+    }
+
+    std::cout << "]" << std::endl;
 }

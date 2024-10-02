@@ -17,9 +17,13 @@ class Player
 public:
     std::string name;
     char tag;
-    int playedAt[5] = {};
     int played_count = 0;
+    int wins = 0, loses = 0, draws = 0;
 
+private:
+    int playedAt[5] = {};
+
+public:
     Player(std::string name, char tag)
     {
         this->name = name;
@@ -29,5 +33,11 @@ public:
     void play(int spot)
     {
         this->playedAt[this->played_count] = spot;
+        this->played_count++;
+    }
+
+    int *get_played_at()
+    {
+        return this->playedAt;
     }
 };
