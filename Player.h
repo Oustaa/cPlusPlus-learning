@@ -18,16 +18,17 @@ public:
     std::string name;
     char tag;
     int played_count = 0;
-    int wins = 0, loses = 0, draws = 0;
+    int wins = 0;
 
 private:
     int playedAt[5] = {};
 
 public:
-    Player(std::string name, char tag)
+    Player(std::string name, char tag, int wins = 0)
     {
         this->name = name;
         this->tag = tag;
+        this->wins = wins;
     }
 
     void play(int spot)

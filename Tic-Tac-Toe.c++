@@ -3,7 +3,7 @@
 
 #include "./Player.h"
 
-void drawMap(char spots[9]);
+void drawMap(char spots[9], Player players[2]);
 bool checkWining(Player *player);
 void logArr(const int arr[], int arrLength);
 
@@ -19,7 +19,9 @@ int main()
         '7',
         '8',
         '9'};
-    int playedCount = 0, playedSpot, currentPlayerIndex = 0;
+    char playedSpot;
+    int playedCount = 0, currentPlayerIndex = 0, draws;
+    bool playerWins = false;
     std::string playerName;
 
     Player players[2] = {Player("X", 'X'), Player("O", 'O')};
@@ -38,13 +40,16 @@ int main()
         // a single round loop
         while (playedCount <= 9)
         {
-            drawMap(spots);
-            std::cout << players[currentPlayerIndex].name << " Turn (" << players[currentPlayerIndex].tag << "):\n";
+            playerWins = false;
+
+            drawMap(spots, players);
             while (true)
             {
-                std::cout << "Chose your spot: ";
+                std::cout << players[currentPlayerIndex].name << "(" << players[currentPlayerIndex].tag << ") Chose your spot: ";
                 std::cin >> playedSpot;
                 // add check for a not played spot
+                // change this check
+                //  playedSpot now is a char not an int
                 if (playedSpot >= 1 && playedSpot <= 9)
                 {
                     players[currentPlayerIndex].play(playedSpot);
@@ -55,25 +60,44 @@ int main()
 
             spots[playedSpot - 1] = players[currentPlayerIndex].tag;
 
-            std::cout << "playedCount " << playedCount << std::endl;
-            if (playedCount >= 5)
+            if (playedCount > 4)
             {
+                std::cout << "checking for winner";
                 if (checkWining(&players[currentPlayerIndex]))
                 {
-                    break;
+                    std::cout << players[currentPlayerIndex].name << " wins;\n";
+                    playedCount = true;
+
+                    players[currentPlayerIndex].wins += 1;
+
+                    // add file storage for players game history
+                    return 0;
                 }
             }
 
             currentPlayerIndex = currentPlayerIndex == 0 ? 1 : 0;
             playedCount++;
         }
+
+        if (!playerWins)
+        {
+            draws += 1;
+        }
     }
 
     return 0;
 }
 
-void drawMap(char spots[9])
+void drawMap(char spots[9], Player players[2])
 {
+    system("clear");
+
+    std::cout << "---- XO -----\n";
+    std::cout << "-------------\n";
+    std::cout << "| X | 0 | O |\n";
+    std::cout << "| " << players[0].wins << " | 0 | " << players[1].wins << " |\n";
+    std::cout << "- GAME BOARD-\n";
+
     std::cout << "-------------\n";
     for (int i = 0; i < 9; i++)
     {
@@ -109,7 +133,6 @@ bool checkWining(Player *player)
 
             if (existCount == 3)
             {
-                std::cout << player->name << " wins;\n";
                 return true;
             }
         }
@@ -135,3 +158,14 @@ void logArr(const int arr[], int arrLength)
 
     std::cout << "]" << std::endl;
 }
+
+// ---- XO -----
+// -------------
+// | X | 0 | O |
+// | 0 | 0 | 0 |
+// - GAME BOARD-
+// -------------
+// | 1 | 2 | 3 |
+// | 4 | 5 | 6 |
+// | 7 | 8 | 9 |
+// -------------
