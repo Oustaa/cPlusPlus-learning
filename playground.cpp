@@ -1,6 +1,9 @@
 #include <iostream>
 #include <algorithm>
 #include <string>
+#include <cmath>
+
+#include "./helpers.hpp"
 
 using namespace std;
 
@@ -11,6 +14,7 @@ int string_to_int(char string_int)
 
 int main(int argc, char *argv[])
 {
+
     // char answer;
     // cout << "Enter a character: ";
     // cin >> answer;
@@ -44,6 +48,34 @@ int main(int argc, char *argv[])
     // }
 
     // cout << string_to_int(str) << endl;
+    // int nums[100] = {};
+
+    // for (int i = 0; i < 100; i++)
+    // {
+    //     nums[i] = i + 1;
+    // }
+
+    // logArr(nums, 100);
+
+    // enum
+    // {
+    //     monday = 1,
+    // } days;
+
+    // system("figlet hello");
+
+    // std::cout << 45 % 3 << std::endl;
+
+    // std::string greeting = "Hello";
+    // std::string complete_greeting = greeting + " There";
+    // complete_greeting += "!";
+
+    // std::cout << complete_greeting << std::endl;
+    // std::cout << complete_greeting.length() << std::endl;
+
+    auto x = 5U;
+
+    std::cout << x << std::endl;
 
     return 0;
 }

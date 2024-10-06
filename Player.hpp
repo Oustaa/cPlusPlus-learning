@@ -46,7 +46,7 @@ public:
         this->played_count = 0;
         for (int i = 0; i < 5; i++)
         {
-            this->playedAt[i] = '\0';
+            this->playedAt[i] = '\n';
         }
     }
 };

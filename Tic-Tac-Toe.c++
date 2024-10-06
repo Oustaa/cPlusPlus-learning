@@ -2,11 +2,11 @@
 #include <algorithm>
 #include <string>
 
-#include "./Player.h"
+#include "./Player.hpp"
+#include "./helpers.hpp"
 
-void drawMap(char spots[9], Player players[2]);
+void drawMap(char spots[9], Player players[2], int draws);
 bool checkWining(Player *player);
-void logArr(const int arr[], int arrLength);
 int after_game_menu();
 int string_to_int(const std::string &str);
 
@@ -23,7 +23,7 @@ int main()
         '8',
         '9'};
     char playedSpot;
-    int playedCount = 0, currentPlayerIndex = 0, draws, after_game_command;
+    int playedCount = 0, currentPlayerIndex = 0, draws = 0, after_game_command;
     bool playerWins = false;
     std::string playerName;
 
@@ -41,12 +41,12 @@ int main()
     while (true)
     {
         // a single round loop
-        while (playedCount <= 9)
+        while (playedCount < 9)
         {
             playedCount++;
             playerWins = false;
 
-            drawMap(spots, players);
+            drawMap(spots, players, draws);
 
             while (true)
             {
@@ -63,18 +63,15 @@ int main()
                 std::cout << "The Chosen spot is invalid\n";
             }
 
-            if (playedCount >= 5)
+            if (playedCount >= 5 && checkWining(&players[currentPlayerIndex]))
             {
-                if (checkWining(&players[currentPlayerIndex]))
-                {
-                    std::cout << players[currentPlayerIndex].name << " wins;\n";
-                    playedCount = true;
+                // resets
+                std::cout << players[currentPlayerIndex].name << " wins;\n";
+                playerWins = true;
+                players[currentPlayerIndex].wins += 1;
 
-                    players[currentPlayerIndex].wins += 1;
-
-                    // add file storage for players game history
-                    break;
-                }
+                // add file storage for players game history
+                break;
             }
 
             spots[string_to_int(&playedSpot) - 1] = players[currentPlayerIndex].tag;
@@ -82,6 +79,7 @@ int main()
             currentPlayerIndex = currentPlayerIndex == 0 ? 1 : 0;
         }
 
+        playedCount = 0;
         if (!playerWins)
         {
             draws += 1;
@@ -95,9 +93,9 @@ int main()
         case 1:
             players[0].reset_palyes();
             players[1].reset_palyes();
-            for (int i = 1; i < 10; i++)
+            for (int i = 0; i < 9; i++)
             {
-                spots[i] = i;
+                spots[i] = '1' + i;
             }
 
             break;
@@ -111,14 +109,14 @@ int main()
     return 0;
 }
 
-void drawMap(char spots[9], Player players[2])
+void drawMap(char spots[9], Player players[2], int draws)
 {
     system("clear");
 
     std::cout << "---- XO -----\n";
     std::cout << "-------------\n";
     std::cout << "| X | 0 | O |\n";
-    std::cout << "| " << players[0].wins << " | 0 | " << players[1].wins << " |\n";
+    std::cout << "| " << players[0].wins << " | " << draws << " | " << players[1].wins << " |\n";
     std::cout << "- GAME BOARD-\n";
     std::cout << "-------------\n";
     for (int i = 0; i < 9; i++)
@@ -162,23 +160,6 @@ bool checkWining(Player *player)
     return false;
 }
 
-void logArr(const int arr[], int arrLength)
-{
-    std::cout << "[";
-
-    for (int i = 0; i < arrLength; i++)
-    {
-        std::cout << arr[i];
-
-        if (i < arrLength - 1)
-        {
-            std::cout << ", ";
-        }
-    }
-
-    std::cout << "]" << std::endl;
-}
-
 int after_game_menu()
 {
     int answerInt;
@@ -193,8 +174,6 @@ int after_game_menu()
         std::cout << ">> ";
         std::cin >> answer;
         answerInt = string_to_int(&answer);
-
-        std::cout << "your answer as number is " << answerInt;
 
         if (answerInt == 0 || answerInt == 1 || answerInt == 2)
         {
