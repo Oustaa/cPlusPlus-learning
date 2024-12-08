@@ -3,7 +3,7 @@
 #include <string>
 
 #include "./Player.hpp"
-#include "./helpers.hpp"
+#include "../helpers.hpp"
 
 void drawMap(char spots[9], Player players[2], int draws);
 bool checkWining(Player *player);
@@ -36,7 +36,7 @@ int main()
     std::cout << "Enter first player name (O): ";
     std::getline(std::cin, playerName);
     players[1].name = playerName;
-
+    playedCount = 0;
     // the game main loop
     while (true)
     {

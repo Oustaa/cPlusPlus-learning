@@ -49,4 +49,22 @@ public:
             this->playedAt[i] = '\n';
         }
     }
+
+    int is_gonna_win(char opponent_played_spots[])
+    {
+        char spot;
+        for (int i = 0; i < 8; i++)
+        {
+            int found = 0;
+            for (int j = 0; j < 3; j++)
+            {
+                spot = WINNING_PATH[i][j];
+                int arraySize = sizeof(WINNING_PATH[i]) / sizeof(WINNING_PATH[i][0]);
+                if (std::find(WINNING_PATH[i], WINNING_PATH[i] + arraySize, this->playedAt[j]) != WINNING_PATH[i] + arraySize)
+                {
+                    ++found;
+                }
+            }
+        }
+    }
 };
