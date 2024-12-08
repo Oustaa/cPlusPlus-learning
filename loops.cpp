@@ -7,13 +7,16 @@ int main()
     std::cout << "Enter n: ";
     std::cin >> n;
 
-    // while (i <= n)
-    // {
-    //     std::cout << i << std::endl;
+    while (i <= n)
+    {
+        std::cout << i << std::endl;
 
-    //     i++;
-    // }
+        i++;
+    }
 
+    std::cout << "THIS IS END OF WHILE DO\n";
+
+    i = 1;
     do
     {
         std::cout << i << std::endl;
