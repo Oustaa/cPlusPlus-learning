@@ -2,23 +2,23 @@
 #include <limits>
 #include <math.h>
 
-#define PI = 3.1425;
+// #define PI = 3.1425;
 
-typedef int marks;
-typedef int roleNumber;
+// typedef int marks;
+// typedef int roleNumber;
 
-enum Departements
-{
-    CS = 1,
-    IT = 45,
-};
+// enum Departements
+// {
+//     CS = 1,
+//     IT = 45,
+// };
 
-typedef struct
-{
-    std::string name;
-    Departements departement;
-    int age;
-} Person;
+// typedef struct
+// {
+//     std::string name;
+//     Departements departement;
+//     int age;
+// } Person;
 
 // float distance(int x1, int y1, int x2, int y2)
 // {
@@ -124,7 +124,24 @@ int main(int argc, const char **argv)
     // std::cout << me.departement << std::endl;
     // std::cout << me.age << std::endl;
 
-    std::cout << (float)91 / 22 << std::endl;
+    // int A[12] = {2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24};
+    // int B[] = {};
+    std::string names[] = {"Oussama", "kaoutar", "Khadija", "Aziz"};
+
+    // std::cout << A << std::endl;
+    // std::cout << B << std::endl;
+
+    // std::cout << "[ ";
+    for (auto name : names)
+        std::cout << name << std::endl;
+
+    // std::cout << "]\n";
+
+    // std::cout << (float)91 / 22 << std::endl;
+
+    int x = 8;
+
+    std::cout << "x is: " << ++x << std::endl;
 
     return 0;
 }
