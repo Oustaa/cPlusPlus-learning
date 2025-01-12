@@ -1,27 +1,14 @@
 #include <iostream>
+#include "./namespaces.h"
 
 using namespace std;
-
-namespace First
-{
-    void fun()
-    {
-        cout << "First fun" << endl;
-    }
-}
-
-namespace Second
-{
-    void fun()
-    {
-        cout << "Second fun" << endl;
-    }
-}
+using namespace First;
 
 int main()
 {
     First::fun();
     Second::fun();
+    fun();
 
     return 0;
 }

@@ -1,7 +1,7 @@
 # functionalities
 - log in as admin
 - create a school
-- create classes
+- create classes => School class not C++ classes
 - add teachers
 - assigne treacher to a class
 - create a student

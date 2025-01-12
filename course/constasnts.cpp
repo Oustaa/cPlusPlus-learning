@@ -15,9 +15,16 @@ using namespace std;
 //     }
 // };
 
+void fun(const int &x, const int &y)
+{
+    cout << x << " " << y << endl;
+}
+
 int main()
 {
     int x = 30, y = 300;
+
+    fun(x, y);
 
     const int *const ptr = &x;
     // ptr = &y;
