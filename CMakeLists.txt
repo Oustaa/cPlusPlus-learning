@@ -10,4 +10,3 @@ project(MyProject)
 # Add the executable
 add_executable(MyProject main.c)
 
-
