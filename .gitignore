@@ -1,2 +1,5 @@
+students-managment/**/*
 CMakeFiles
 CMakeCache.txt
+.gitignore
+a.out

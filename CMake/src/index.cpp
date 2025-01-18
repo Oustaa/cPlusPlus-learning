@@ -36,5 +36,9 @@ ostream &operator<<(ostream &o, Person &p)
 
 int main()
 {
+    Person me("Oussama Tailba", 27);
+
+    cout << me;
+
     return 0;
 }
