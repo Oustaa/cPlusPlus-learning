@@ -1,5 +1,7 @@
 #include <iostream>
 
+#include "TutorialConfig.h"
+
 using namespace std;
 
 class Person
@@ -34,11 +36,20 @@ ostream &operator<<(ostream &o, Person &p)
     return o;
 }
 
-int main()
+int main(int argc, char **argv)
 {
-    Person me("Oussama Tailba", 27);
+    // Person me("Oussama Tailba", 27);
 
-    cout << me;
+    // cout << me;
+
+    if (argc < 2)
+    {
+        // report version
+        std::cout << argv[0] << " Version " << Tutorial_VERSION_MAJOR << "."
+                  << Tutorial_VERSION_MINOR << std::endl;
+        std::cout << "Usage: " << argv[0] << " number" << std::endl;
+        return 1;
+    }
 
     return 0;
 }
