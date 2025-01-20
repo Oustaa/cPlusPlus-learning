@@ -11,6 +11,8 @@ class Player
 public:
     string player_name;
 
+    Player() {};
+
     Player(string name)
     {
         this->player_name = name;

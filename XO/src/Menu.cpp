@@ -26,11 +26,44 @@ namespace Menu
 
                 cin.clear();
                 cin.ignore(1000, '\n');
-                continue;
             }
 
         } while (choice < 1 || choice > 5);
 
         return choice;
+    }
+
+    int game_over_menu(string name, char symbol)
+    {
+        cout << "The winner is (" << symbol << "): " << name << endl;
+
+        int choice;
+
+        do
+        {
+            cout << "1. Reply" << endl;
+            cout << "2. Change opponent" << endl;
+            cout << "3. back" << endl;
+            cout << "4.quit" << endl;
+
+            cin >> choice;
+
+            if (cin.fail())
+            {
+                cin.clear();
+                cin.ignore(1000, '\n');
+            }
+
+        } while (true);
+    }
+
+    string get_player_name_menu_option(char symbol)
+    {
+        string n;
+
+        cout << "Enter your name (" << symbol << "): ";
+        getline(cin, n);
+
+        return n;
     }
 };
