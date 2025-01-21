@@ -1,19 +1,19 @@
 #include <iostream>
 #include <vector>
 #include <mutex>
-
-#include "Player.cpp"
-#include "Menu.cpp"
+#include <algorithm>
 
 using namespace std;
 
 class Game
 {
-
     static Game *game_ptr;
     static mutex mtx;
-
+    bool game_over = false;
+    vector<int[]> *win_paterns;
     vector<Player> players;
+    vector<int> played_spots;
+    int player_turn = 0;
 
     Game() {}
 
@@ -34,26 +34,75 @@ public:
         return game_ptr;
     }
 
-    void set_players(vector<Player> players) const
+    void print_map()
     {
-        Game::game_ptr->players = players;
+        int played_spot;
+        system("clear");
+
+        cout << "+++++++++++++" << endl;
+        cout << "| X | T | O |" << endl;
+        cout << "+++++++++++++" << endl;
+        cout << "| 0 | 0 | 0 |" << endl;
+        cout << "+++++++++++++" << endl;
+        for (int i = 1; i <= 9; i++)
+        {
+            cout << "| " << i << " ";
+
+            if (i % 3 == 0)
+            {
+                cout << "|" << endl;
+                cout << "-------------" << endl;
+            }
+        }
+    }
+
+    int get_player_spot()
+    {
+        int played_spot;
+
+        do
+        {
+            cout << players[player_turn].name << " chose a spot (" << players[player_turn].symbol << "): ";
+            cin >> played_spot;
+
+            if (cin.fail())
+            {
+                cin.clear();
+                cin.ignore(1000, '\n');
+            }
+            if (played_spot < 1 || played_spot > 9 || find(played_spots.begin(), played_spots.end(), played_spot) != played_spots.end())
+
+                cout << "invalid input!!!!!!" << endl;
+            else
+                break;
+
+        } while (true);
+
+        return played_spot;
+    }
+
+    void start_game()
+    {
+        vector<string> players_names = Menu::get_players_name();
+
+        players.clear();
+        players.push_back(Player(players_names[0], 'x'));
+        players.push_back(Player(players_names[1], 'o'));
+
+        while (!game_over)
+        {
+            Player current_player = players[player_turn];
+            print_map();
+            // get current player played spot
+            int played_on = get_player_spot();
+
+            played_spots.push_back(played_on);
+            current_player.play(played_on);
+
+            player_turn = player_turn == 0 ? 1 : 0;
+        }
     }
 };
 
 Game *Game::game_ptr = nullptr;
 mutex Game::mtx;
-
-int main()
-{
-    Game *game = Game::getInstance();
-    vector<Player> players;
-
-    string x_player_name = Menu::get_player_name_menu_option('X');
-    players.push_back(Player(x_player_name));
-    string o_player_name = Menu::get_player_name_menu_option('O');
-    players.push_back(Player(o_player_name));
-
-    Player player("Oussama Tailba");
-
-    game->set_players(players);
-}

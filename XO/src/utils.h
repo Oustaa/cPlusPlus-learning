@@ -1,4 +1,4 @@
-struct PlayersResult
+struct PlayeScore
 {
     short int wins;
     short int losses;

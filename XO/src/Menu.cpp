@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -6,8 +7,10 @@ namespace Menu
 {
     int print_main_menu()
     {
+
         int choice;
 
+        // system("clear");
         do
         {
             cout << "Welcome ot the game." << endl;
@@ -53,8 +56,9 @@ namespace Menu
                 cin.clear();
                 cin.ignore(1000, '\n');
             }
+        } while (choice < 1 || choice > 4);
 
-        } while (true);
+        return choice;
     }
 
     string get_player_name_menu_option(char symbol)
@@ -62,8 +66,25 @@ namespace Menu
         string n;
 
         cout << "Enter your name (" << symbol << "): ";
+        cin.ignore();
         getline(cin, n);
 
         return n;
     }
+
+    vector<string> get_players_name()
+    {
+        vector<string> names;
+
+        string x_player_name = get_player_name_menu_option('x');
+        names.push_back(x_player_name);
+
+        string o_player_name = get_player_name_menu_option('o');
+        names.push_back(o_player_name);
+
+        cout << "Player X: " << names[0] << ", Player O: " << names[1] << endl;
+
+        return names;
+    }
+
 };
