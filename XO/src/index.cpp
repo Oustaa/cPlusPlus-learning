@@ -1,9 +1,14 @@
 #include <iostream>
 #include <vector>
 
-#include "Menu.cpp"
-#include "Player.cpp"
-#include "Game.cpp"
+#include "Menu.hpp"
+#include "Player.hpp"
+#include "Game.hpp"
+
+#if __has_include("utils.hpp")
+#else
+#include "utils.hpp"
+#endif
 
 using namespace std;
 

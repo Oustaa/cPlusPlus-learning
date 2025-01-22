@@ -13,7 +13,9 @@ class Game
     vector<int[]> *win_paterns;
     vector<Player> players;
     vector<int> played_spots;
+    char played_spots_plac_holder[9] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
     int player_turn = 0;
+    int play_gount = 0;
 
     Game() {}
 
@@ -34,19 +36,20 @@ public:
         return game_ptr;
     }
 
-    void print_map()
+    void print_map(char map_place_holders[9])
     {
         int played_spot;
-        system("clear");
+        // system("clear");
 
-        cout << "+++++++++++++" << endl;
-        cout << "| X | T | O |" << endl;
-        cout << "+++++++++++++" << endl;
-        cout << "| 0 | 0 | 0 |" << endl;
-        cout << "+++++++++++++" << endl;
+        // cout << "+++++++++++++" << endl;
+        // cout << "| X | T | O |" << endl;
+        // cout << "+++++++++++++" << endl;
+        // cout << "| 0 | 0 | 0 |" << endl;
+        // cout << "+++++++++++++" << endl;
+        cout << "-------------" << endl;
         for (int i = 1; i <= 9; i++)
         {
-            cout << "| " << i << " ";
+            cout << "| " << map_place_holders[i - 1] << " ";
 
             if (i % 3 == 0)
             {
@@ -70,8 +73,8 @@ public:
                 cin.clear();
                 cin.ignore(1000, '\n');
             }
-            if (played_spot < 1 || played_spot > 9 || find(played_spots.begin(), played_spots.end(), played_spot) != played_spots.end())
 
+            if (played_spot < 1 || played_spot > 9 || find(played_spots.begin(), played_spots.end(), played_spot) != played_spots.end())
                 cout << "invalid input!!!!!!" << endl;
             else
                 break;
@@ -91,13 +94,23 @@ public:
 
         while (!game_over)
         {
+            play_gount++;
             Player current_player = players[player_turn];
-            print_map();
+            print_map(played_spots_plac_holder);
             // get current player played spot
             int played_on = get_player_spot();
 
+            played_spots_plac_holder[played_on - 1] = current_player.symbol;
             played_spots.push_back(played_on);
             current_player.play(played_on);
+
+            if (play_gount >= 5)
+            {
+                if (current_player.check_wins())
+                {
+                    Menu::game_over_menu(current_player.name, current_player.symbol);
+                }
+            }
 
             player_turn = player_turn == 0 ? 1 : 0;
         }

@@ -1,16 +1,14 @@
 #include <iostream>
 #include <vector>
 
-#include "utils.h"
+#include "utils.hpp"
 
 using namespace std;
 
 class Player
 {
+    vector<int> played_spots;
 
-    vector<int> played_spot;
-
-    // rename this var it's not ideal
     PlayeScore playe_score{0, 0, 0};
 
 public:
@@ -27,11 +25,22 @@ public:
 
     void play(int spot)
     {
-        played_spot.push_back(spot);
+        played_spots.push_back(spot);
     }
 
     bool check_wins()
     {
+
+        system("clear");
+        vector<int>::iterator itr = played_spots.begin();
+
+        while (itr != played_spots.end())
+        {
+            cout << *itr << endl;
+
+            itr++;
+        }
+
         return false;
     }
 };
