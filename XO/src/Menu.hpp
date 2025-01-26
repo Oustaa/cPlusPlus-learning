@@ -36,9 +36,15 @@ namespace Menu
         return choice;
     }
 
-    int game_over_menu(string name, char symbol)
+    void player_wins_msg(string name, char symbol)
     {
+        cout << "-------------" << endl;
         cout << "The winner is (" << symbol << "): " << name << endl;
+        cout << "-------------" << endl;
+    }
+
+    int game_over_menu()
+    {
 
         int choice;
 
@@ -66,7 +72,6 @@ namespace Menu
         string n;
 
         cout << "Enter your name (" << symbol << "): ";
-        cin.ignore();
         getline(cin, n);
 
         return n;
@@ -75,6 +80,8 @@ namespace Menu
     vector<string> get_players_name()
     {
         vector<string> names;
+
+        cin.ignore();
 
         string x_player_name = get_player_name_menu_option('x');
         names.push_back(x_player_name);

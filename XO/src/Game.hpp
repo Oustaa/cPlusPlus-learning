@@ -13,9 +13,11 @@ class Game
     vector<int[]> *win_paterns;
     vector<Player> players;
     vector<int> played_spots;
-    char played_spots_plac_holder[9] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
+    vector<char> played_spots_plac_holder = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
     int player_turn = 0;
-    int play_gount = 0;
+    int play_count = 0;
+    bool player_wins = false;
+    int ties = 0;
 
     Game() {}
 
@@ -36,17 +38,33 @@ public:
         return game_ptr;
     }
 
-    void print_map(char map_place_holders[9])
+    void restart_game()
+    {
+
+        if (!player_wins)
+        {
+            player_turn = player_turn == 0 ? 1 : 0;
+        }
+        play_count = 0;
+        game_over = false;
+        played_spots.clear();
+        played_spots_plac_holder = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
+        for (Player &player : players)
+        {
+            player.clear();
+        }
+    }
+
+    void print_map(vector<char> map_place_holders)
     {
         int played_spot;
-        // system("clear");
+        system("clear");
 
-        // cout << "+++++++++++++" << endl;
-        // cout << "| X | T | O |" << endl;
-        // cout << "+++++++++++++" << endl;
-        // cout << "| 0 | 0 | 0 |" << endl;
-        // cout << "+++++++++++++" << endl;
-        cout << "-------------" << endl;
+        cout << "+++++++++++++" << endl;
+        cout << "| X | T | O |" << endl;
+        cout << "+++++++++++++" << endl;
+        cout << "| " << players[0].get_score().wins << " | " << ties << " | " << players[1].get_score().wins << " | " << endl;
+        cout << "+++++++++++++" << endl;
         for (int i = 1; i <= 9; i++)
         {
             cout << "| " << map_place_holders[i - 1] << " ";
@@ -86,33 +104,61 @@ public:
 
     void start_game()
     {
+        Player *current_player_ptr;
         vector<string> players_names = Menu::get_players_name();
 
         players.clear();
         players.push_back(Player(players_names[0], 'x'));
         players.push_back(Player(players_names[1], 'o'));
 
-        while (!game_over)
+        while (true)
         {
-            play_gount++;
-            // Player current_player = players[player_turn];
-            print_map(played_spots_plac_holder);
-            // get current player played spot
-            int played_on = get_player_spot();
-
-            played_spots_plac_holder[played_on - 1] = players[player_turn].symbol;
-            played_spots.push_back(played_on);
-            players[player_turn].play(played_on);
-
-            if (play_gount >= 5)
+            while (!game_over)
             {
-                if (players[player_turn].check_wins())
+
+                current_player_ptr = &players[player_turn];
+                play_count++;
+                // Player current_player = players[player_turn];
+                print_map(played_spots_plac_holder);
+                // get current player played spot
+                int played_on = get_player_spot();
+
+                played_spots_plac_holder[played_on - 1] = current_player_ptr->symbol;
+                played_spots.push_back(played_on);
+                current_player_ptr->play(played_on);
+
+                if (play_count >= 5)
                 {
-                    Menu::game_over_menu(players[player_turn].name, players[player_turn].symbol);
+                    if (current_player_ptr->check_wins())
+                    {
+                        Menu::player_wins_msg(current_player_ptr->name, current_player_ptr->symbol);
+                        player_wins = true;
+                        break;
+                    }
                 }
+
+                if (play_count == 9)
+                {
+                    ties++;
+                    cout << "You tied." << endl;
+                    break;
+                }
+
+                player_turn = player_turn == 0 ? 1 : 0;
             }
 
-            player_turn = player_turn == 0 ? 1 : 0;
+            int choice = Menu::game_over_menu();
+            switch (choice)
+            {
+            case 1:
+                restart_game();
+                break;
+            case 4:
+                return;
+
+            default:
+                break;
+            }
         }
     }
 };

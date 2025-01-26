@@ -29,6 +29,16 @@ public:
         played_spots.push_back(spot);
     }
 
+    PlayeScore get_score()
+    {
+        return playe_score;
+    }
+
+    void clear()
+    {
+        played_spots.clear();
+    }
+
     bool check_wins()
     {
         int winning_paths[8][3] = {
@@ -56,7 +66,10 @@ public:
             }
 
             if (match == 3)
+            {
+                playe_score.wins++;
                 return true;
+            }
         }
 
         return false;
