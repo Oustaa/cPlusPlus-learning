@@ -9,7 +9,6 @@ class Game
 {
     static Game *game_ptr;
     static mutex mtx;
-    bool game_over = false;
     vector<int[]> *win_paterns;
     vector<Player> players;
     vector<int> played_spots;
@@ -46,7 +45,6 @@ public:
             player_turn = player_turn == 0 ? 1 : 0;
         }
         play_count = 0;
-        game_over = false;
         played_spots.clear();
         played_spots_plac_holder = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
         for (Player &player : players)
@@ -58,7 +56,7 @@ public:
     void print_map(vector<char> map_place_holders)
     {
         int played_spot;
-        system("clear");
+        // system("clear");
 
         cout << "+++++++++++++" << endl;
         cout << "| X | T | O |" << endl;
@@ -77,55 +75,26 @@ public:
         }
     }
 
-    int get_player_spot()
-    {
-        int played_spot;
-
-        do
-        {
-            cout << players[player_turn].name << " chose a spot (" << players[player_turn].symbol << "): ";
-            cin >> played_spot;
-
-            if (cin.fail())
-            {
-                cin.clear();
-                cin.ignore(1000, '\n');
-            }
-
-            if (played_spot < 1 || played_spot > 9 || find(played_spots.begin(), played_spots.end(), played_spot) != played_spots.end())
-                cout << "invalid input!!!!!!" << endl;
-            else
-                break;
-
-        } while (true);
-
-        return played_spot;
-    }
-
-    void start_game()
+    void start_game(Player xplayer, Player oplayer)
     {
         Player *current_player_ptr;
-        vector<string> players_names = Menu::get_players_name();
-
         players.clear();
-        players.push_back(Player(players_names[0], 'x'));
-        players.push_back(Player(players_names[1], 'o'));
+        players.push_back(xplayer);
+        players.push_back(oplayer);
 
         while (true)
         {
-            while (!game_over)
+            while (true)
             {
 
                 current_player_ptr = &players[player_turn];
                 play_count++;
                 // Player current_player = players[player_turn];
                 print_map(played_spots_plac_holder);
-                // get current player played spot
-                int played_on = get_player_spot();
+                int played_on = current_player_ptr->play(played_spots);
 
                 played_spots_plac_holder[played_on - 1] = current_player_ptr->symbol;
                 played_spots.push_back(played_on);
-                current_player_ptr->play(played_on);
 
                 if (play_count >= 5)
                 {
