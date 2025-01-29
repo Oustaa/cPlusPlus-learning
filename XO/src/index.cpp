@@ -12,18 +12,12 @@
 
 using namespace std;
 
-struct Players
-{
-    Player x_player;
-    Player o_player;
-};
-
 void game_with_friend(Game *game)
 {
     vector<string> players_names = Menu::get_players_name();
 
-    Player xplayer = Player(players_names[0], 'x');
-    Player oplayer = Player(players_names[1], 'o');
+    HumanPlayer xplayer(players_names[0], 'x');
+    HumanPlayer oplayer(players_names[1], 'o');
 
     game->start_game(xplayer, oplayer);
 }
@@ -33,8 +27,8 @@ void game_with_computer(Game *game)
     cin.ignore();
     string xPlayer_name = Menu::get_player_name_menu_option('x');
 
-    Player xplayer = Player(xPlayer_name, 'x');
-    Player computer = Computer('o');
+    HumanPlayer xplayer = HumanPlayer(xPlayer_name, 'x');
+    Computer computer = Computer('o');
 
     game->start_game(xplayer, computer);
 }

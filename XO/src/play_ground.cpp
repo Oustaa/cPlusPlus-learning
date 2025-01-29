@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
+#include <random>
 
 using namespace std;
 
@@ -43,11 +45,47 @@ int main()
     //     cout << ch << endl;
     // }
 
-    Player player;
-    Player computer = Computer();
+    // Player player;
+    // Player computer = Computer();
 
-    player.play();
-    computer.play();
+    // player.play();
+    // computer.play();
+
+    // vector<Player *> players_ptrs;
+
+    // players_ptrs.push_back(new Player());
+    // players_ptrs.push_back(new Player());
+    // players_ptrs.push_back(new Player());
+    // players_ptrs.push_back(new Player());
+
+    // for (auto player : players_ptrs)
+    // {
+    //     player->play();
+    // }
+
+    // vector<int> played_spots = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+
+    // // Create random device and generator (do this once)
+    // random_device rd;
+    // mt19937 gen(rd());
+    // uniform_int_distribution<> dist(1, 9);
+
+    // // Get random number between 1 and 9
+    // int random_num = dist(gen);
+
+    // cout << random_num << endl;
+
+    vector<int> available_spots = {1, 2, 3, 4, 5, 6, 7, 8, 9, 322};
+
+    vector<int>::iterator it = find(available_spots.begin(), available_spots.end(), 1);
+
+    if (it == available_spots.end())
+        cout << "not found\n";
+    else
+        cout << "found at index: " << it - available_spots.begin() << endl;
+
+    cout << available_spots.size() << endl;
 
     return 0;
 }
+#include <vector>

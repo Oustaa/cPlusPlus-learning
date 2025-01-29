@@ -1,6 +1,8 @@
 #include <iostream>
+#include <random>
 #include <vector>
 #include <algorithm>
+#include <random>
 
 #include "utils.hpp"
 
@@ -19,9 +21,11 @@ int winning_paths[8][3] = {
 
 class Player
 {
-    vector<int> played_spots;
 
     PlayeScore playe_score{0, 0, 0};
+
+protected:
+    vector<int> played_spots;
 
 public:
     string name;
@@ -60,15 +64,16 @@ public:
         return played_spot;
     }
 
-    virtual int play(vector<int> played_spots)
-    {
-        int spot = get_player_spot(played_spots);
-        played_spots.push_back(spot);
+    virtual int play(vector<int> played_spots) = 0;
+    // virtual int play(vector<int> played_spots)
+    // {
+    //     int spot = get_player_spot(played_spots);
+    //     played_spots.push_back(spot);
 
-        this->played_spots.push_back(spot);
+    //     this->played_spots.push_back(spot);
 
-        return spot;
-    }
+    //     return spot;
+    // }
 
     PlayeScore get_score()
     {
@@ -123,19 +128,34 @@ public:
                 checking_spot = spot;
             }
 
-            if (match == 3)
-            {
-                playe_score.wins++;
-                return true;
-            }
+            // if (match == 3)
+            //     played_spots
         }
 
         return 0;
     }
 };
 
+class HumanPlayer : public Player
+{
+public:
+    HumanPlayer(string player_name, char symbol) : Player(player_name, symbol) {}
+
+    int play(vector<int> played_spots) override
+    {
+        int spot = get_player_spot(played_spots);
+        played_spots.push_back(spot);
+
+        this->played_spots.push_back(spot);
+
+        return spot;
+    }
+};
+
 class Computer : public Player
 {
+    int played_count;
+
 public:
     Computer(char symbol) : Player("computer", symbol) {}
 
@@ -151,7 +171,26 @@ public:
      */
     int play(vector<int> played_spots) override
     {
-        cout << "fuck this shit" << endl;
-        return 1;
+        int spot;
+        int wining_spot;
+        vector<int> available_spots;
+
+        for (int i = 1; i <= 9; i++)
+        {
+            if (find(played_spots.begin(), played_spots.end(), i) == played_spots.end())
+            {
+                available_spots.push_back(i);
+            }
+        }
+
+        random_device rd;
+        mt19937 gen(rd());
+        uniform_int_distribution<> dist(0, played_spots.size() - 1);
+        spot = available_spots[dist(gen)];
+
+        played_spots.push_back(spot);
+        this->played_spots.push_back(spot);
+
+        return spot;
     }
 };
