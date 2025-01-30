@@ -64,27 +64,28 @@ int main()
     // }
 
     // vector<int> played_spots = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+    vector<int> available_spots = {5, 7};
 
     // // Create random device and generator (do this once)
-    // random_device rd;
-    // mt19937 gen(rd());
-    // uniform_int_distribution<> dist(1, 9);
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<> dist(0, available_spots.size() - 1);
 
     // // Get random number between 1 and 9
-    // int random_num = dist(gen);
+    int random_index = dist(gen);
 
-    // cout << random_num << endl;
+    cout << available_spots[random_index] << endl;
 
-    vector<int> available_spots = {1, 2, 3, 4, 5, 6, 7, 8, 9, 322};
+    // vector<int> available_spots = {1, 2, 3, 4, 5, 6, 7, 8, 9, 322};
 
-    vector<int>::iterator it = find(available_spots.begin(), available_spots.end(), 1);
+    // vector<int>::iterator it = find(available_spots.begin(), available_spots.end(), 1);
 
-    if (it == available_spots.end())
-        cout << "not found\n";
-    else
-        cout << "found at index: " << it - available_spots.begin() << endl;
+    // if (it == available_spots.end())
+    //     cout << "not found\n";
+    // else
+    //     cout << "found at index: " << it - available_spots.begin() << endl;
 
-    cout << available_spots.size() << endl;
+    // cout << available_spots.size() << endl;
 
     return 0;
 }

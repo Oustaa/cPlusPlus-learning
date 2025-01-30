@@ -111,25 +111,33 @@ public:
         return false;
     }
 
-    int will_player_win(vector<int> opponent_spots)
+    int winning_spot(vector<int> opponent_spots)
     {
-        int checking_spot;
         for (const auto &path : winning_paths)
         {
-            int match = 0;
-            for (auto spot : path)
-            {
-                auto it = find(played_spots.begin(), played_spots.end(), spot);
+            std::vector<int> path_copy(std::begin(path), std::end(path));
 
-                if (it != played_spots.end())
+            for (int i = 0; i < 3; i++)
+            {
+                int spot = path[i];
+
+                if (find(played_spots.begin(), played_spots.end(), spot) != played_spots.end())
                 {
-                    match++;
+                    //   remove the spot from the copy int[]
+                    path_copy.erase(std::remove(path_copy.begin(), path_copy.end(), spot), path_copy.end());
                 }
-                checking_spot = spot;
+                else if (find(opponent_spots.begin(), opponent_spots.end(), spot) != opponent_spots.end())
+                {
+                    path_copy.clear();
+                    break;
+                }
             }
 
-            // if (match == 3)
-            //     played_spots
+            //  the copy int[] has an element return it
+            if (path_copy.size() == 1)
+            {
+                return path_copy[0];
+            }
         }
 
         return 0;
@@ -183,9 +191,15 @@ public:
             }
         }
 
+        // check if computer can win at a spot
+        // if computer is can win, hw should play at his spot
+        // else check if the opponent is gonna win
+        // if player can win, he should be blocked
+
+        // else just play at a rundom spot bellow
         random_device rd;
         mt19937 gen(rd());
-        uniform_int_distribution<> dist(0, played_spots.size() - 1);
+        uniform_int_distribution<> dist(0, available_spots.size() - 1);
         spot = available_spots[dist(gen)];
 
         played_spots.push_back(spot);

@@ -75,7 +75,7 @@ public:
         }
     }
 
-    template <class P, class C>
+    template <typename P, typename C>
     void start_game(P xplayer, C oplayer)
     {
         Player *current_player_ptr;
