@@ -42,7 +42,7 @@ public:
     {
         for (const auto &path : winning_paths)
         {
-            std::vector<int> path_copy(std::begin(path), std::end(path));
+            vector<int> path_copy(begin(path), end(path));
 
             for (int i = 0; i < 3; i++)
             {
@@ -51,7 +51,7 @@ public:
                 if (find(played_spots.begin(), played_spots.end(), spot) != played_spots.end())
                 {
                     //   remove the spot from the copy int[]
-                    path_copy.erase(std::remove(path_copy.begin(), path_copy.end(), spot), path_copy.end());
+                    path_copy.erase(remove(path_copy.begin(), path_copy.end(), spot), path_copy.end());
                 }
                 else if (find(opponent_spots.begin(), opponent_spots.end(), spot) != opponent_spots.end())
                 {
@@ -77,14 +77,27 @@ int main()
     // case 1 => p1 {1, 2, 5}; p2{8, 6, 4}
     // case 2 => p1 {3, 2, 5}; p2{8, 6, 4}
 
-    Player player_test(vector<int>{3, 2, 5});
+    // Player player_test(vector<int>{3, 2, 5});
 
-    int winning_spot = player_test.winning_spot(vector<int>{1, 8, 7});
+    // int winning_spot = player_test.winning_spot(vector<int>{1, 8, 7});
 
-    if (winning_spot != 0)
-        cout << "winign spot is " << winning_spot << endl;
-    else
-        cout << "the player will not win" << endl;
+    // if (winning_spot != 0)
+    //     cout << "winign spot is " << winning_spot << endl;
+    // else
+    //     cout << "the player will not win" << endl;
+
+    vector<int> vec1 = {1, 2, 3};
+    vector<int> vec2 = {4, 5, 6};
+
+    vector<int> result = vec1 + vec2; // Allocate space
+    // copy(vec1.begin(), vec1.end(), result.begin());
+    // copy(vec2.begin(), vec2.end(), result.begin() + vec1.size());
+
+    // Print result
+    for (int num : result)
+        cout << num << " ";
+    cout << endl;
+    return 0;
 
     return 0;
 }

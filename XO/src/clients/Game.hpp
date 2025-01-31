@@ -87,12 +87,11 @@ public:
         {
             while (true)
             {
-
                 current_player_ptr = players[player_turn];
                 play_count++;
                 // Player current_player = players[player_turn];
                 print_map(played_spots_place_holder);
-                int played_on = current_player_ptr->play(played_spots);
+                int played_on = current_player_ptr->play(players[player_turn == 0 ? 1 : 0]);
 
                 played_spots_place_holder[played_on - 1] = current_player_ptr->symbol;
                 played_spots.push_back(played_on);
@@ -110,7 +109,9 @@ public:
                 if (play_count == 9)
                 {
                     ties++;
+                    cout << "-------------" << endl;
                     cout << "You tied." << endl;
+                    cout << "-------------" << endl;
                     break;
                 }
 

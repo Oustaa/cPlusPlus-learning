@@ -39,6 +39,11 @@ public:
         this->symbol = symbol;
     }
 
+    vector<int> get_played_spots()
+    {
+        return this->played_spots;
+    }
+
     int get_player_spot(vector<int> played_spots)
     {
         int played_spot;
@@ -64,16 +69,7 @@ public:
         return played_spot;
     }
 
-    virtual int play(vector<int> played_spots) = 0;
-    // virtual int play(vector<int> played_spots)
-    // {
-    //     int spot = get_player_spot(played_spots);
-    //     played_spots.push_back(spot);
-
-    //     this->played_spots.push_back(spot);
-
-    //     return spot;
-    // }
+    virtual int play(Player *opponent) = 0;
 
     PlayeScore get_score()
     {
@@ -149,7 +145,7 @@ class HumanPlayer : public Player
 public:
     HumanPlayer(string player_name, char symbol) : Player(player_name, symbol) {}
 
-    int play(vector<int> played_spots) override
+    int play(Player *opponent) override
     {
         int spot = get_player_spot(played_spots);
         played_spots.push_back(spot);
@@ -177,30 +173,34 @@ public:
      * @return
      * int player_spot
      */
-    int play(vector<int> played_spots) override
+    int play(Player *opponent) override
     {
-        int spot;
-        int wining_spot;
-        vector<int> available_spots;
 
-        for (int i = 1; i <= 9; i++)
-        {
-            if (find(played_spots.begin(), played_spots.end(), i) == played_spots.end())
-            {
-                available_spots.push_back(i);
-            }
-        }
+        vector<int> played_spots = merge_vector(this->played_spots, opponent->get_played_spots());
+
+        int spot = 0;
+        int wining_spot;
+
+        vector<int> available_spots = get_available_spots(played_spots);
 
         // check if computer can win at a spot
         // if computer is can win, hw should play at his spot
-        // else check if the opponent is gonna win
-        // if player can win, he should be blocked
+        spot = this->winning_spot(played_spots);
+        if (spot == 0)
+        {
+            // else check if the opponent is gonna win
+            // if player can win, he should be blocked
 
-        // else just play at a rundom spot bellow
-        random_device rd;
-        mt19937 gen(rd());
-        uniform_int_distribution<> dist(0, available_spots.size() - 1);
-        spot = available_spots[dist(gen)];
+            spot = opponent->winning_spot(played_spots);
+            if (spot == 0)
+            {
+                // else just play at a rundom spot bellow
+                random_device rd;
+                mt19937 gen(rd());
+                uniform_int_distribution<> dist(0, available_spots.size() - 1);
+                spot = available_spots[dist(gen)];
+            }
+        }
 
         played_spots.push_back(spot);
         this->played_spots.push_back(spot);

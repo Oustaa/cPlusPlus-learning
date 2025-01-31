@@ -71,7 +71,7 @@ int main()
     mt19937 gen(rd());
     uniform_int_distribution<> dist(0, available_spots.size() - 1);
 
-    // // Get random number between 1 and 9
+    // // Get random number betweall_played_spotsen 1 and 9
     int random_index = dist(gen);
 
     cout << available_spots[random_index] << endl;
