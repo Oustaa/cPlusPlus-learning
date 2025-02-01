@@ -70,7 +70,15 @@
     "cinttypes": "cpp",
     "variant": "cpp",
     "chrono": "cpp",
-    "codecvt": "cpp"
+    "codecvt": "cpp",
+    "csignal": "cpp",
+    "any": "cpp",
+    "complex": "cpp",
+    "coroutine": "cpp",
+    "source_location": "cpp",
+    "future": "cpp",
+    "shared_mutex": "cpp",
+    "typeindex": "cpp"
   }
 }
 
