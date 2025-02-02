@@ -33,11 +33,7 @@ public:
 
     Player() {};
 
-    Player(string name, char symbol)
-    {
-        this->name = name;
-        this->symbol = symbol;
-    }
+    Player(string name, char symbol) : name(name), symbol(symbol) {}
 
     vector<int> get_played_spots()
     {

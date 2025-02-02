@@ -1,12 +1,15 @@
 #include <iostream>
 #include <boost/asio.hpp>
 #include <cstring>
+#include <vector>
 
 using namespace boost::asio;
 using ip::tcp;
 
 int main()
 {
+    std::vector<tcp::socket> connected_sockets;
+
     try
     {
         io_context io;
@@ -19,7 +22,7 @@ int main()
             tcp::socket socket(io);
             acceptor.accept(socket);
             std::cout << "Client connected!" << std::endl;
-
+            connected_sockets.push_back(socket);
             char buffer[1024];
 
             while (true)
