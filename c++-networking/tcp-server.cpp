@@ -23,10 +23,10 @@ int main()
             acceptor.accept(socket);
             std::cout << "Client connected!" << std::endl;
             connected_sockets.push_back(socket);
-            char buffer[1024];
 
             while (true)
             {
+                char buffer[1024];
                 std::memset(buffer, 0, sizeof(buffer));
                 boost::system::error_code error;
 

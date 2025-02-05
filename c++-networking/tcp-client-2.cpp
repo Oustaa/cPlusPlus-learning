@@ -41,6 +41,7 @@ int main()
 
     while (true)
     {
+        // memset(&message, 0, sizeof(message));
         std::cout << "Enter your message: ";
         std::cin.getline(message, 100);
 
@@ -48,10 +49,10 @@ int main()
         send(sock, message, strlen(message), 0);
         std::cout << "Message sent" << std::endl;
 
-        char *buffer;
-        recv(sock, buffer, sizeof(buffer), 0);
+        // char *buffer;
+        // recv(sock, buffer, sizeof(buffer), 0);
 
-        std::cout << buffer << std::endl;
+        // std::cout << buffer << std::endl;
     }
     // Close socket
     close(sock);

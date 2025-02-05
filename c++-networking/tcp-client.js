@@ -12,8 +12,22 @@ const client = net.createConnection({
 client.on("connect", async () => {
   console.log("connected");
 
+  // { type: message | username_signed }
+  client.on("data", (chunk) => {
+    const recivedData = JSON(chunk.toString());
+    switch (recivedData.type) {
+      case "username_signed":
+        client.username = recivedData.username;
+        break;
+      case "message":
+        // rl.clearLine(0);
+        console.log(recivedData.message);
+        break;
+    }
+  });
+
   while (1) {
-    const answer = await rl.question("What do you think of Node.js? ");
+    const answer = await rl.question(`${client.username} > `);
     client.write(answer);
   }
 });

@@ -29,14 +29,15 @@ int main()
     address.sin_addr.s_addr = INADDR_ANY;
     address.sin_port = htons(PORT);
 
-    // Bind
-    if (bind(server_fd, (struct sockaddr *)&address, sizeof(address)) < 0)
-    {
-        perror("bind failed");
-        exit(EXIT_FAILURE);
-    }
     while (true)
-    { // Create socket
+    {
+        // Create socket
+        // Bind
+        if (bind(server_fd, (struct sockaddr *)&address, sizeof(address)) < 0)
+        {
+            perror("bind failed");
+            exit(EXIT_FAILURE);
+        }
 
         // Listen
         if (listen(server_fd, 3) < 0)
@@ -45,6 +46,7 @@ int main()
             exit(EXIT_FAILURE);
         }
         // Accept a connection
+
         new_socket =
             accept(server_fd, (struct sockaddr *)&address, (socklen_t *)&addrlen);
         // sockets.push_back(new_socket);
@@ -53,12 +55,9 @@ int main()
             perror("accept");
             exit(EXIT_FAILURE);
         }
-        while (true)
-        {
-            // Read data
-            read(new_socket, buffer, 1024);
-            std::cout << "Message from client: " << buffer << std::endl;
-        }
+        // Read data
+        read(new_socket, buffer, 1024);
+        std::cout << "Message from client: " << buffer << std::endl;
 
         // send(new_socket, )
     }
