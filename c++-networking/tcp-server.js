@@ -14,10 +14,14 @@ server.on("connection", (socket) => {
 
   connectedClients.push(socket);
 
-  socket.write({ type: "username_signed", username });
+  socket.write(JSON.stringify({ type: "username_signed", username }));
 
   socket.on("data", (chunk) => {
     connectedClients.forEach((skt) => {
+      console.log({
+        "skt.username": skt.username,
+        "socket.username": socket.username,
+      });
       if (skt.username !== socket.username) {
         skt.write(
           JSON.stringify({

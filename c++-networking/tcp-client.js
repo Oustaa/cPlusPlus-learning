@@ -10,24 +10,29 @@ const client = net.createConnection({
 });
 
 client.on("connect", async () => {
-  console.log("connected");
-
-  // { type: message | username_signed }
   client.on("data", (chunk) => {
-    const recivedData = JSON(chunk.toString());
+    const recivedData = JSON.parse(chunk.toString());
+
     switch (recivedData.type) {
       case "username_signed":
         client.username = recivedData.username;
         break;
       case "message":
-        // rl.clearLine(0);
+        // Clear the input prompt
+        process.stdout.moveCursor(0, -1);
+        process.stdout.clearLine(-1);
+
+        // Print the received message
         console.log(recivedData.message);
+
+        // Reprint the prompt
+        process.stdout.write(`me > `);
         break;
     }
   });
 
-  while (1) {
-    const answer = await rl.question(`${client.username} > `);
+  while (true) {
+    const answer = await rl.question(`me > `);
     client.write(answer);
   }
 });
